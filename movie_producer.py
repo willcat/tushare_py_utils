@@ -4,6 +4,6 @@ import json
 df = ts.realtime_boxoffice()
 producer = KafkaProducer(bootstrap_servers='localhost:9092')
 for idx in df.index:
-    message = str(df.loc[idx].values[0:-1])
-    producer.send('foobar', bytes(message,encoding='utf-8'))
+    message = df.loc[idx].values[0:-1].tolist()
+    producer.send('foobar', bytes(json.dumps(message),encoding='utf-8'))
     print(message)
